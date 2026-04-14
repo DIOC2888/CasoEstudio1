@@ -1,5 +1,5 @@
 package Clases;
-
+/*GADS FAF GZAY GHVKJHVYVJ*/
 public class Cliente {
     private String nombre;
     private String telefono;
