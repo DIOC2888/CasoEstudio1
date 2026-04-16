@@ -6,10 +6,12 @@ import java.util.ArrayList;
 public class ServicioProducto {
     private ArrayList<Producto> productos = new ArrayList<>();
 
+    //Añade un producto a la lista de productos
     public void registrarProducto(Producto producto) {
         productos.add(producto);
     }
 
+    //Muestra la lista de todos los productos registrados
     public void mostrarProductos() {
         if (productos.isEmpty()) {
             System.out.println("No hay productos registrados.");
@@ -28,6 +30,7 @@ public class ServicioProducto {
         return productos;
     }
 
+    //Busca un producto en la lista por el nombre y lo devuelve si lo encuentre
     public Producto buscarProductoPorNombre(String nombre) {
         for (Producto producto : productos) {
             if (producto.getNombre().equalsIgnoreCase(nombre)) {
@@ -36,6 +39,8 @@ public class ServicioProducto {
         }
         return null;
     }
+
+    //Busca el producto que el usuario desea eliminar buscando el nombre en la lista de productos
     public void eliminarProducto(String nombre) {
         for (int i = 0; i < productos.size(); i++) {
             if (productos.get(i).getNombre().equalsIgnoreCase(nombre)) {

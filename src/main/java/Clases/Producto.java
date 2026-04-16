@@ -1,6 +1,7 @@
 package Clases;
 
 public class Producto {
+    //Esta clase solo contiene los atributos, constructor, los getters y setters.
     private String nombre;
     private double precio;
     private boolean disponible;

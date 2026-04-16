@@ -5,8 +5,9 @@ import Clases.Pedido;
 import Clases.Producto;
 import Interfaces.MetodoPago;
 import java.util.ArrayList;
-
+/*Esta clase gestiona los servicios relacionados con la clase pedido, ademas que crea la lista de pedidos*/
 public class ServicioPedido {
+
     private ArrayList<Pedido> pedidos = new ArrayList<>();
     //Incializamos el arrayList de pedidos para almacenar los pedidos realizados
 
@@ -18,15 +19,17 @@ public class ServicioPedido {
     }
 
     public void agregarProductoAPedido(Pedido pedido, Producto producto) {
-        // Agrega un producto al un pedido
+        // Agrega un producto al pedido
         pedido.agregarProducto(producto);
     }
 
+    //Llama al metodo eliminarProducto de la clase pedido para eliminar el producto
     public void eliminarProductoDePedido(Pedido pedido, String nombreProducto) {
 
         pedido.eliminarProducto(nombreProducto);
     }
 
+    //Muestra todos los pedidos que se han registrados
     public void mostrarPedidos() {
         if (pedidos.isEmpty()) {
             System.out.println("No hay pedidos registrados.");
