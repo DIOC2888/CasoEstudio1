@@ -62,6 +62,7 @@ public class Menu {
     private void menuClientes() {
         int opc;
         do {
+            mostrarLinea();
             Utilidades.mostrarTitulo("CLIENTES");
             System.out.println("1. Registrar cliente");
             System.out.println("2. Mostrar clientes");
@@ -86,6 +87,7 @@ public class Menu {
     }
 
     private void registrarCliente() {
+        mostrarLinea();
         System.out.print("Nombre: ");
         String nombre = sc.nextLine();
         System.out.print("Teléfono: ");
@@ -96,6 +98,7 @@ public class Menu {
         Cliente cliente = new Cliente(nombre, telefono, direccion);
         servicioCliente.registrarCliente(cliente);
         System.out.println("Cliente registrado con éxito.");
+        mostrarLinea();
     }
 
     private void menuProductos() {
@@ -129,6 +132,7 @@ public class Menu {
     }
 
     private void registrarProducto() {
+        mostrarLinea();
         System.out.print("Nombre del producto: ");
         String nombre = sc.nextLine();
 
@@ -148,6 +152,7 @@ public class Menu {
                 Producto producto = new Producto(nombre, precio, disponible);
                 servicioProducto.registrarProducto(producto);
                 System.out.println("Producto registrado con éxito.");
+                mostrarLinea();
                 break;
             }
         } while (true);
