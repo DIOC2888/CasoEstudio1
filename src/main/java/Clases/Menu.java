@@ -203,25 +203,38 @@ public class Menu {
 
         System.out.print("Ingrese el nombre del cliente: ");
         String nombreCliente = sc.nextLine();
+
         Cliente cliente = servicioCliente.buscarClientePorNombre(nombreCliente);
 
         if (cliente == null) {
             System.out.println("Cliente no encontrado.");
             return;
         }
+
         mostrarLinea();
         System.out.println("Seleccione método de pago:");
         System.out.println("1. Efectivo");
         System.out.println("2. Tarjeta");
-        int opcionPago = sc.nextInt();
-        sc.nextLine();
+        System.out.print("Seleccione una opción: ");
+
+        String opcionPagoTexto = sc.nextLine();
+        int opcionPago;
+
+        try {
+            opcionPago = Integer.parseInt(opcionPagoTexto);
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada inválida. Debe ingresar un número.");
+            return;
+        }
+
         mostrarLinea();
 
         MetodoPago metodoPago;
+
         if (opcionPago == 1) {
-            metodoPago = new PagoEfectivo();
+            metodoPago = new PagoEfectivo(0);
         } else if (opcionPago == 2) {
-            metodoPago = new PagoTarjeta();
+            metodoPago = new PagoTarjeta("");
         } else {
             System.out.println("Método de pago inválido.");
             return;
@@ -245,9 +258,55 @@ public class Menu {
 
             System.out.print("¿Desea agregar otro producto? (S/N): ");
             respuesta = sc.nextLine();
+
         } while (respuesta.equalsIgnoreCase("S"));
 
-        System.out.println("Total del pedido: C$" + pedido.calcularTotal());
+        double total = pedido.calcularTotal();
+        System.out.println("Total del pedido: C$ " + total);
+        mostrarLinea();
+
+        if (metodoPago instanceof PagoEfectivo) {
+            double montoRecibido;
+
+            while (true) {
+                System.out.print("Ingrese el monto entregado por el cliente: C$ ");
+                String montoTexto = sc.nextLine();
+
+                try {
+                    montoRecibido = Double.parseDouble(montoTexto);
+
+                    if (montoRecibido < total) {
+                        System.out.println("El monto no cubre el total. Intente nuevamente.");
+                        continue;
+                    }
+
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada inválida. Ingrese un número válido.");
+                }
+            }
+
+            metodoPago = new PagoEfectivo(montoRecibido);
+
+        } else if (metodoPago instanceof PagoTarjeta) {
+            String numeroTarjeta;
+
+            while (true) {
+                System.out.print("Ingrese el número de tarjeta (16 dígitos): ");
+                numeroTarjeta = sc.nextLine();
+
+                if (!numeroTarjeta.matches("\\d{16}")) {
+                    System.out.println("Número inválido. Debe tener 16 dígitos.");
+                    continue;
+                }
+
+                break;
+            }
+
+            metodoPago = new PagoTarjeta(numeroTarjeta);
+        }
+
+        pedido.setMetodoPago(metodoPago);
         pedido.procesarPago();
     }
 
