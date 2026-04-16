@@ -1,6 +1,10 @@
 package Clases;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Productos {
+
     private String nombre;
     private double precio;
     private int cantidad;  // le agregue cantidad como atributo por que sino no iba a poder calcular el total en pedidos
@@ -44,4 +48,6 @@ public class Productos {
     public void setDisponibilidad(boolean disponibilidad) {
         this.disponibilidad = disponibilidad;
     }
+
+
 }

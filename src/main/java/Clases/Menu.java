@@ -1,10 +1,15 @@
 package Clases;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
     Scanner sc = new Scanner(System.in);
     private Cliente gestorClientes = new Cliente();
+    private ArrayList<Productos> listaProductos = new ArrayList<>();
+
+
+    int opc;
 
     public void mostrarMenu(){
         int opc;
@@ -24,7 +29,7 @@ public class Menu {
                     mostrarMenuClientes();
                     break;
                 case 2:
-                    //añadir metodo para gestionar productos
+                    mostrarMenuProductos();
                     break;
                 case 3:
                     //añadir metodo para gestionar pedidos
@@ -64,7 +69,7 @@ public class Menu {
     }
 
     public void mostrarMenuClientes() {
-        int opc;
+
         do {
             System.out.println("---------GESTIÓN DE CLIENTES----------");
             System.out.println("1. Registrar nuevo cliente");
@@ -88,6 +93,73 @@ public class Menu {
                     System.out.println("Opción inválida. Por favor, ingrese un número del 1 al 3.");
             }
         } while (opc != 3);
+    }
+
+    public void mostrarMenuProductos() {
+
+        do{
+            System.out.println("---------GESTIÓN DE PRODUCTOS----------");
+            System.out.println("1. Registrar nuevo producto");
+            System.out.println("2. Mostrar productos registrados");
+            System.out.println("3. Volver al menú principal");
+            System.out.println("Seleccione una opción:");
+            opc = sc.nextInt();
+            sc.nextLine();
+
+            switch (opc){
+                case 1:
+                    registrarProducto();
+                    break;
+                case 2:
+                    mostrarProductos();
+                    break;
+                case 3:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción inválida. Por favor, ingrese un número del 1 al 3.");
+            }
+        }while (opc != 3);
+    }
+
+    public void registrarProducto() {
+        System.out.println("---------REGISTRO DE PRODUCTO----------");
+
+        System.out.println("Ingrese el nombre del producto:");
+        String nombre = sc.nextLine();
+
+        System.out.println("Ingrese el precio del producto:");
+        float precio = sc.nextFloat();
+        sc.nextLine();
+
+        System.out.println("Ingrese la cantidad del producto:");
+        int cantidad = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("¿El producto está disponible? (S/N)");
+        String disponibilidadInput = sc.nextLine();
+        boolean disponibilidad = disponibilidadInput.equalsIgnoreCase("S");
+
+        Productos producto = new Productos(nombre, precio, cantidad, disponibilidad);
+        listaProductos.add(producto);
+
+        System.out.println("Producto registrado exitosamente.");
+        System.out.println("-----------------------------------");
+
+    }
+    public void mostrarProductos() {
+        if (listaProductos.isEmpty()) {
+            System.out.println("No hay productos registrados.");
+            return;
+        }
+
+        for (Productos producto : listaProductos) {
+            System.out.println("Nombre: " + producto.getNombre());
+            System.out.println("Precio: " + producto.getPrecio());
+            System.out.println("Cantidad: " + producto.getCantidad());
+            System.out.println("Disponible: " + producto.isDisponibilidad());
+            System.out.println("-------------------------");
+        }
     }
 
 

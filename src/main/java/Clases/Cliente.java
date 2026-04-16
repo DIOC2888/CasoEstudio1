@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente {
-    private List<Cliente> listaClientes = new ArrayList<>();
+    private List<Cliente> listaClientes = new ArrayList<>(); // Lista para almacenar los clientes registrados
     private String nombre;
     private String telefono;
     private String direccion;
@@ -47,7 +47,7 @@ public class Cliente {
     }
 
     public void mostrarClientes() {
-        for (Cliente cliente : listaClientes) {
+        for (Cliente cliente : listaClientes) {// Recorre la lista de clientes y muestra su información
             System.out.println("---------------------------------");
             System.out.println("Cliente numero: " + (listaClientes.indexOf(cliente) + 1));
             System.out.println("Nombre: " + cliente.getNombre());
