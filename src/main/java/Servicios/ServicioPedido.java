@@ -8,7 +8,9 @@ import java.util.ArrayList;
 
 public class ServicioPedido {
     private ArrayList<Pedido> pedidos = new ArrayList<>();
+    //Incializamos el arrayList de pedidos para almacenar los pedidos realizados
 
+    // Metodo para crear un nuevo pedido a la lista de pedidos
     public Pedido crearPedido(Cliente cliente, MetodoPago metodoPago) {
         Pedido pedido = new Pedido(cliente, metodoPago);
         pedidos.add(pedido);
@@ -16,10 +18,12 @@ public class ServicioPedido {
     }
 
     public void agregarProductoAPedido(Pedido pedido, Producto producto) {
+        // Agrega un producto al un pedido
         pedido.agregarProducto(producto);
     }
 
     public void eliminarProductoDePedido(Pedido pedido, String nombreProducto) {
+
         pedido.eliminarProducto(nombreProducto);
     }
 
