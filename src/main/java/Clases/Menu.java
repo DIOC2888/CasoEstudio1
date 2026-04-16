@@ -1,81 +1,72 @@
 package Clases;
 
-import java.util.ArrayList;
+import Interfaces.MetodoPago;
+import Pagos.PagoEfectivo;
+import Pagos.PagoTarjeta;
+import Servicios.ServicioCliente;
+import Servicios.ServicioPedido;
+import Servicios.ServicioProducto;
+import Servicios.ServicioReporte;
+import Utilidades.Utilidades;
+
 import java.util.Scanner;
 
+import static Utilidades.Utilidades.mostrarLinea;
+
 public class Menu {
-    Scanner sc = new Scanner(System.in);
-    private Cliente gestorClientes = new Cliente();
-    private ArrayList<Productos> listaProductos = new ArrayList<>();
+    private Scanner sc = new Scanner(System.in);
 
+    private ServicioCliente servicioCliente = new ServicioCliente();
+    private ServicioProducto servicioProducto = new ServicioProducto();
+    private ServicioPedido servicioPedido = new ServicioPedido();
+    private ServicioReporte servicioReporte = new ServicioReporte();
 
-    int opc;
-
-    public void mostrarMenu(){
+    public void mostrarMenu() {
         int opc;
-        do{
-            System.out.println("-------------MENU------------");
+
+        do {
+            mostrarLinea();
+            Utilidades.mostrarTitulo("MENU PRINCIPAL");
+            mostrarLinea();
             System.out.println("1. Clientes");
             System.out.println("2. Productos");
             System.out.println("3. Pedidos");
-            System.out.println("4. Resumenes");
+            System.out.println("4. Reportes");
             System.out.println("5. Salir");
-            System.out.println("Seleccione una opción:");
+            System.out.print("Seleccione una opción: ");
             opc = sc.nextInt();
             sc.nextLine();
 
-            switch (opc){
+            switch (opc) {
                 case 1:
-                    mostrarMenuClientes();
+                    menuClientes();
                     break;
                 case 2:
-                    mostrarMenuProductos();
+                    menuProductos();
                     break;
                 case 3:
-                    //añadir metodo para gestionar pedidos
+                    menuPedidos();
                     break;
                 case 4:
-                    //añadir metodo para mostrar resúmenes
+                    mostrarReportes();
                     break;
                 case 5:
                     System.out.println("Saliendo del programa...");
                     break;
                 default:
-                    System.out.println("Opción inválida. Por favor, ingrese un número del 1 al 5.");
+                    System.out.println("Opción inválida.");
             }
-        }while(opc != 5);
+        } while (opc != 5);
     }
 
-    public void registrarCliente() {
-        System.out.println("---------REGISTRO DE CLIENTE----------");
-        System.out.println("Ingrese el nombre del cliente:");
-        String nombre = sc.nextLine();
-
-        System.out.println("Ingrese el teléfono del cliente:");
-        String telefono = sc.nextLine();
-
-        System.out.println("Ingrese la dirección del cliente:");
-        String direccion = sc.nextLine();
-
-        Cliente cliente = new Cliente(nombre, telefono, direccion);
-        gestorClientes.registrarCliente(cliente);
-
-        System.out.println("Cliente registrado exitosamente.");
-        System.out.println("-----------------------------------");
-    }
-
-    public void mostrarClientes() {
-        gestorClientes.mostrarClientes();
-    }
-
-    public void mostrarMenuClientes() {
-
+    private void menuClientes() {
+        int opc;
         do {
-            System.out.println("---------GESTIÓN DE CLIENTES----------");
-            System.out.println("1. Registrar nuevo cliente");
-            System.out.println("2. Mostrar clientes registrados");
-            System.out.println("3. Volver al menú principal");
-            System.out.println("Seleccione una opción:");
+            Utilidades.mostrarTitulo("CLIENTES");
+            System.out.println("1. Registrar cliente");
+            System.out.println("2. Mostrar clientes");
+            System.out.println("3. Volver");
+            System.out.print("Seleccione una opción: ");
             opc = sc.nextInt();
             sc.nextLine();
 
@@ -84,84 +75,181 @@ public class Menu {
                     registrarCliente();
                     break;
                 case 2:
-                    mostrarClientes();
+                    servicioCliente.mostrarClientes();
                     break;
                 case 3:
-                    System.out.println("Volviendo al menú principal...");
                     break;
                 default:
-                    System.out.println("Opción inválida. Por favor, ingrese un número del 1 al 3.");
+                    System.out.println("Opción inválida.");
             }
         } while (opc != 3);
     }
 
-    public void mostrarMenuProductos() {
+    private void registrarCliente() {
+        System.out.print("Nombre: ");
+        String nombre = sc.nextLine();
+        System.out.print("Teléfono: ");
+        String telefono = sc.nextLine();
+        System.out.print("Dirección: ");
+        String direccion = sc.nextLine();
 
-        do{
-            System.out.println("---------GESTIÓN DE PRODUCTOS----------");
-            System.out.println("1. Registrar nuevo producto");
-            System.out.println("2. Mostrar productos registrados");
-            System.out.println("3. Volver al menú principal");
-            System.out.println("Seleccione una opción:");
+        Cliente cliente = new Cliente(nombre, telefono, direccion);
+        servicioCliente.registrarCliente(cliente);
+        System.out.println("Cliente registrado con éxito.");
+    }
+
+    private void menuProductos() {
+        int opc;
+        do {
+            Utilidades.mostrarTitulo("PRODUCTOS");
+            System.out.println("1. Registrar producto");
+            System.out.println("2. Mostrar productos");
+            System.out.println("3. Eliminar producto");
+            System.out.println("4. Volver");
+            System.out.print("Seleccione una opción: ");
             opc = sc.nextInt();
             sc.nextLine();
 
-            switch (opc){
+            switch (opc) {
                 case 1:
                     registrarProducto();
                     break;
                 case 2:
-                    mostrarProductos();
+                    servicioProducto.mostrarProductos();
                     break;
                 case 3:
-                    System.out.println("Volviendo al menú principal...");
+                    eliminarProducto();
+                    break;
+                case 4:
                     break;
                 default:
-                    System.out.println("Opción inválida. Por favor, ingrese un número del 1 al 3.");
+                    System.out.println("Opción inválida.");
             }
-        }while (opc != 3);
+        } while (opc != 4);
     }
 
-    public void registrarProducto() {
-        System.out.println("---------REGISTRO DE PRODUCTO----------");
-
-        System.out.println("Ingrese el nombre del producto:");
+    private void registrarProducto() {
+        System.out.print("Nombre del producto: ");
         String nombre = sc.nextLine();
 
-        System.out.println("Ingrese el precio del producto:");
-        float precio = sc.nextFloat();
+        System.out.print("Precio: ");
+        double precio = sc.nextDouble();
         sc.nextLine();
 
-        System.out.println("Ingrese la cantidad del producto:");
-        int cantidad = sc.nextInt();
-        sc.nextLine();
+        boolean disponible;
+        do {
+            System.out.print("¿Está disponible? (S/N): ");
+            String disponibleTexto = sc.nextLine();
 
-        System.out.println("¿El producto está disponible? (S/N)");
-        String disponibilidadInput = sc.nextLine();
-        boolean disponibilidad = disponibilidadInput.equalsIgnoreCase("S");
-
-        Productos producto = new Productos(nombre, precio, cantidad, disponibilidad);
-        listaProductos.add(producto);
-
-        System.out.println("Producto registrado exitosamente.");
-        System.out.println("-----------------------------------");
-
+            if (!disponibleTexto.equalsIgnoreCase("S") && !disponibleTexto.equalsIgnoreCase("N")) {
+                System.out.println("Entrada inválida. Por favor ingrese 'S' para sí o 'N' para no.");
+            } else {
+                disponible = disponibleTexto.equalsIgnoreCase("S");
+                Producto producto = new Producto(nombre, precio, disponible);
+                servicioProducto.registrarProducto(producto);
+                System.out.println("Producto registrado con éxito.");
+                break;
+            }
+        } while (true);
     }
-    public void mostrarProductos() {
-        if (listaProductos.isEmpty()) {
-            System.out.println("No hay productos registrados.");
+    private void eliminarProducto() {
+
+        System.out.print("Ingrese el nombre del producto a eliminar: ");
+        String nombre = sc.nextLine();
+        servicioProducto.eliminarProducto(nombre);
+    }
+    private void menuPedidos() {
+        int opc;
+        do {
+            mostrarLinea();
+            Utilidades.mostrarTitulo("PEDIDOS");
+            System.out.println("1. Crear pedido");
+            System.out.println("2. Mostrar pedidos");
+            System.out.println("3. Volver");
+            System.out.print("Seleccione una opción: ");
+            opc = sc.nextInt();
+            sc.nextLine();
+
+            switch (opc) {
+                case 1:
+                    crearPedido();
+                    break;
+                case 2:
+                    servicioPedido.mostrarPedidos();
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Opción inválida.");
+            }
+        } while (opc != 3);
+    }
+
+    private void crearPedido() {
+        if (servicioCliente.getClientes().isEmpty()) {
+            System.out.println("Debe registrar al menos un cliente primero.");
             return;
         }
 
-        for (Productos producto : listaProductos) {
-            System.out.println("Nombre: " + producto.getNombre());
-            System.out.println("Precio: " + producto.getPrecio());
-            System.out.println("Cantidad: " + producto.getCantidad());
-            System.out.println("Disponible: " + producto.isDisponibilidad());
-            System.out.println("-------------------------");
+        if (servicioProducto.getProductos().isEmpty()) {
+            System.out.println("Debe registrar al menos un producto primero.");
+            return;
         }
+
+        System.out.print("Ingrese el nombre del cliente: ");
+        String nombreCliente = sc.nextLine();
+        Cliente cliente = servicioCliente.buscarClientePorNombre(nombreCliente);
+
+        if (cliente == null) {
+            System.out.println("Cliente no encontrado.");
+            return;
+        }
+        mostrarLinea();
+        System.out.println("Seleccione método de pago:");
+        System.out.println("1. Efectivo");
+        System.out.println("2. Tarjeta");
+        int opcionPago = sc.nextInt();
+        sc.nextLine();
+        mostrarLinea();
+
+        MetodoPago metodoPago;
+        if (opcionPago == 1) {
+            metodoPago = new PagoEfectivo();
+        } else if (opcionPago == 2) {
+            metodoPago = new PagoTarjeta();
+        } else {
+            System.out.println("Método de pago inválido.");
+            return;
+        }
+
+        Pedido pedido = servicioPedido.crearPedido(cliente, metodoPago);
+
+        String respuesta;
+        do {
+            servicioProducto.mostrarProductos();
+            System.out.print("Ingrese el nombre del producto que desea agregar: ");
+            String nombreProducto = sc.nextLine();
+
+            Producto producto = servicioProducto.buscarProductoPorNombre(nombreProducto);
+
+            if (producto != null) {
+                servicioPedido.agregarProductoAPedido(pedido, producto);
+            } else {
+                System.out.println("Producto no encontrado.");
+            }
+
+            System.out.print("¿Desea agregar otro producto? (S/N): ");
+            respuesta = sc.nextLine();
+        } while (respuesta.equalsIgnoreCase("S"));
+
+        System.out.println("Total del pedido: C$" + pedido.calcularTotal());
+        pedido.procesarPago();
     }
 
-
-
+    private void mostrarReportes() {
+        mostrarLinea();
+        Utilidades.mostrarTitulo("REPORTES");
+        servicioReporte.mostrarReporte(servicioPedido.getPedidos());
+        mostrarLinea();
+    }
 }
